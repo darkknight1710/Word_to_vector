@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+ <html lang="en">
+ 
+ <head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta name="description" content="">
+     <meta name="author" content="">
+ 
+     <title>Word embedding demo</title>
+
+     <script type="text/javascript">
+       $APP_ROOT= {{request.script_root|tojson|safe }};
+     </script>
+ 
+     <!-- Bootstrap core CSS -->
+     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+     <link href="{{ url_for('static', filename='css/jquery-ui.css') }}" rel="stylesheet">
+     <!-- Custom styles for this template -->
+     <link href="{{ url_for('static', filename='css/w2vdemo.css') }}" rel="stylesheet">
+     <script src="{{ url_for('static', filename='js/jquery-1.9.0.js') }}"> </script>
+     <script src="{{ url_for('static', filename='js/w2vdemo.js') }}"> </script>
+     <script src="{{ url_for('static', filename='js/jquery-ui.js') }}"></script>
+  </head>
+ 
+ <body>
+   <body style="background-image :linear-gradient(to right,#bdc3c7,#2c3e50);text-align:center">
+     <div class="container">
+     <a href="http://bionlp.utu.fi/">[Turku NLP Group]</a>
+     
+     <h2>Models</h2>
+     <p style="font-family:courier;">Select one of the available models</p>
+     <select id="model_select" name="model_select">
+       {% for m in model_names %}
+       <option>{{m}}</option>
+       {% endfor %}
+     </select>
+     
+
+     <h2 class="form-wordinput-heading">Nearest words </h2>
+     <p style="font-family:courier;"> Given a word, this demo shows a list of other words that are similar
+       to it, i.e. nearby in the vector space.</p>
+     <form class="form-inline" id="nearestform" role="form">
+         <input type="text" class="form-control autocomplete" id="word" name="word" placeholder="Type in a word" autocorrect="off" autocapitalize="none"/>
+	 <button id="submitword" type="submit" class="btn btn-default btn-primary active form-control" role="button">Show nearest</button>
+	 <div class="form-group">
+	   <label>Case sensitive:</label>
+	   <div class="checkbox">
+	     <input type="checkbox" class="form-control" value="case-sensitive" id="case" name="case" checked disabled/>
+	   </div>
+	 </div>
+	 <div class="form-group">
+	   <label for="topn">Top N:</label>
+	   <select class="form-control" id="topn" name="topn">
+	     <option>5</option>
+	     <option selected>10</option>
+	     <option>20</option>
+	     <option>100</option>
+	   </select>
+	 </div>
+     </form>
+
+     <div id="nearestresult" class="row" ></div>
+
+
+		<h2 class="form-wordinput-heading">Similarity of two words </h2>
+     <p style="font-family:courier;"> Given two words, this demo gives the similarity value between 1 and -1.</p>
+     <form class="form-inline" id="similarityform" role="form">
+         <input type="text" class="form-control autocomplete" id="similarity_w1" name="similarity_w1" placeholder="Type in a word" autocorrect="off" autocapitalize="none"/>
+	<input type="text" class="form-control autocomplete" id="similarity_w2" name="similarity_w2" placeholder="Type in a word" autocorrect="off" autocapitalize="none"/>
+	 <button id="submitsimilarity" type="submit" class="btn btn-default btn-primary active form-control" role="button">Show similarity</button>
+
+     </form>
+
+     <div id="similarityresult" class="row" ></div>
+  
+
+     <h2 class="form-wordinput-heading">Word analogy</h2>
+     <p style="font-family:courier;"> This demo computes word analogy: the first word is to the second word like the third word is to which word? Try for example <em>ilma - lintu - vesi (air - bird - water)</em> which would expect to return <em>kala (fish)</em> because fish is to water like birs is to air. Other cases could be for example <em>sammakko - hyppää - kala</em>. This is however only a toy to show what is possible - most of the time the analogy does not work particularly well (at least for the Finnish data).</p>
+     <form class="form-inline" id="analogyform" role="form">
+         <input type="text" class="form-control autocomplete" id="analogy_src1" name="analogy_src1" placeholder="Type in a word" autocorrect="off" autocapitalize="none"/>
+	 <input type="text" class="form-control autocomplete" id="analogy_target1" name="analogy_target1" placeholder="Type in a word" autocorrect="off" autocapitalize="none"/>
+	 <input type="text" class="form-control autocomplete" id="analogy_src2" name="analogy_src2" placeholder="Type in a word" autocorrect="off" autocapitalize="none"/>
+	 <button id="submitanalogy" type="submit" class="btn btn-default btn-primary active form-control" role="button">Show</button>
+	 <div class="form-group">
+	   <label for="analogy_topn">Top N:</label>
+	   <select class="form-control" id="analogy_topn" name="analogy_topn">
+	     <option selected>2</option>
+	     <option>5</option>
+	     <option>10</option>
+	     <option>20</option>
+	     <option>100</option>
+	   </select>
+	 </div>
+     </form>
+     <div id="analogyresult" class="row" ></div>
+
+
+
+
+ 
+     <h3>About</h3>
+     <p style="font-family:courier;">The demo is based on word embeddings induced using
+     the <a href="https://code.google.com/archive/p/word2vec/">word2vec</a>
+     method, trained on 4.5B words of Finnish from
+     the <a href="http://bionlp.utu.fi/finnish-internet-parsebank.html">Finnish
+     Internet Parsebank</a> project and over 2B words of Finnish from Suomi24. On the Parsebank project page you
+     can also download the vectors in binary form. The software behind
+     the demo is
+     open-source, <a href="https://github.com/fginter/w2v_demo">available
+     on GitHub</a>. The demo is maintained by the <a href="http://bionlp.utu.fi/">Turku BioNLP group</a>.</p>
+   </div>
+ </body>
+ </html>

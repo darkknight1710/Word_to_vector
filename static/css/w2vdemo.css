@@ -1,0 +1,11 @@
+body {
+    background-color: #ff4500;
+
+}
+
+.w2vresultblock {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 3px;
+    background-color: #ff4500;
+}
