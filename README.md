@@ -1,2 +1,2 @@
 # w2v_demo
-little thing I can run on the project pages
+This Project takes word inputs and finds similar words using word to vector method
